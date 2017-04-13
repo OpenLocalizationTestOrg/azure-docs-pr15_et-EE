@@ -1,0 +1,1 @@
+Microsoft Azure'i liikluse haldur kasutamisel Topeltdegressiivse liikluse laadimiseks veebisaidile Azure veebisaidi siis pääseb abil soovitud ** \*. trafficmanager.net** määratud Azure'i domeeninime. Kohandatud domeeninime, nt www.contoso.com, saate seostada ka veebisaidi kasutajate jaoks veel tundmatu domeeninime pakkumiseks.

@@ -1,0 +1,1 @@
+Kui teil on juba liikluse haldur profiili [loomine abil kiiresti luua liikluse haldur profiili](../articles/traffic-manager/traffic-manager-manage-profiles.md) teabe loomiseks kasutada. Märkus on **. trafficmanager.net** domeeni nimi, mis on seotud liikluse haldur profiili, kui seda kasutatakse hiljem hiljem juhiseid selles dokumendis.

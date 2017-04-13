@@ -1,0 +1,5 @@
+See artikkel on mõeldud Azure'i rakendust Service (veebirakenduste, API rakendused, mobiilirakenduste, loogika rakendused); pilveteenustega, vt [konfigureerimise teenuse Azure pilveteenuses kohandatud domeeni nimi](../articles/cloud-services/cloud-services-custom-domain-name.md).
+
+> [AZURE.NOTE]  Kui saate rakenduse koormust tasakaalustavad [Azure liikluse Manager](https://azure.microsoft.com/services/traffic-manager/), klõpsake nuppu saada teatud juhiseid selle artikli alguses on valija.
+>
+> **Kohandatud domeeni nimi on pole lubatud tasuta taseme**. Peate [skaala kuni hinnakirjad jõudmine](../articles/app-service-web/web-sites-scale.md), mis võivad muutuda, kui palju on arve tellimuse. Lisateabe saamiseks vt [Rakenduse teenuse hinnad](https://azure.microsoft.com/pricing/details/app-service/) .

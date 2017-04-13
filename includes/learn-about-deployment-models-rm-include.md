@@ -1,0 +1,1 @@
+> [AZURE.NOTE] Azure'i on kaks erinevat juurutamise mudelitel loomise ja töötamine ressursse: [ressursihaldur ja klassikaline](../articles/resource-manager-deployment-model.md).  Selles artiklis antakse ülevaade abil ressursihaldur juurutamise mudelit, mis soovitab Microsoft kasutada enamiku uue juurutuste asemel kuvatakse

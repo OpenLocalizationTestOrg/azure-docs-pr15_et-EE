@@ -1,0 +1,3 @@
+Sätte kohandatud domeeninime web Appile teenuses Azure rakendus on koormus tasakaalustatud liikluse haldur on ainult režiimi **Standard** veebilehtede jaoks saadaval. Enne vahetamist veebirakenduse tasuta rakenduse teenus leping režiimi ühiskasutuses, Basic või Standard režiim, peate esmalt eemaldama kulutuste suurtähelukk kohas tellimuse rakenduse teenus. 
+
+Lisateavet rakenduse teenuse leping režiimi, sh kuidas muuta veebisaidi režiimi kohta leiate teemast [mastaapimiseks veebisaitidelt](../articles/app-service-web/web-sites-scale.md).

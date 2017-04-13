@@ -1,0 +1,11 @@
+Siin on kasutus piiranguid ja muude teenuste piirangud Azure Active Directory teenus.
+
+| Kategooria | Piirangud |
+|---|---|
+| Kataloogide | Ühe kasutaja saab ainult seostatud kuni 20 Azure Active Directory kataloogid.<br />Võimalikud kombinatsioonid näited: <ul> <li>Ühe kasutaja loob 20 kataloogide.</li><li>Ühe kasutaja on lisatud 20 kataloogide liikmena.</li><li>Ühe kasutaja loob 10 kataloogid ja hiljem lisatakse teised 10 erinevate kataloogide.</li></ul> |  
+| Objektide | <ul><li>Kuni 500 000 objektide saab ühe Directorys tasuta väljaande Azure Active Directory kasutajad.</li><li>Kasutaja administraatori saate luua rohkem kui 250 objekte.</li></ul> |
+| Skeemi laiendid | <ul><li>Stringi laiendid võib olla maksimaalselt 256 märki. </li><li>Binaarsed laiendid on piiratud 256 baiti.</li><li>ühe objekti saab kirjutada 100 laiend väärtused (üle kõik tüübid ja kõik rakendused).</li><li>Ainult "kasutaja", "Group", "TenantDetail", "Seade", "Rakendus" ja "ServicePrincipal" üksuste laiendatav tüüp "String" või "Binary" tüüp ühe väärtusega atribuute.</li><li>Skeemi laiendid on saadaval ainult 1,21 Graphi API-versioon eelvaates. Rakendus peab olema antud registreerida laiendamine kirjutusõiguse.</li></ul> |
+| Rakenduste | Kuni 10 kasutajat võib olla üks taotlus omanikud. |
+| Rühmad | <ul><li>Kuni 10 kasutajat võib olla üks rühma omanikud.</li><li>Suvalist arvu objektide võib olla üks Azure Active Directory rühma liikmed.</li><li>Saate sünkroonida oma kohapealse Active Directory Azure Active Directory rühma liikmete arv on piiratud 15K liikmed, kasutades Azure Active Directory Kataloogisünkroonimise (DirSync).</li><li>Azure Active Directory Azure'i AD-ühenduse abil saate sünkroonida oma kohapealse Active Directory rühma liikmete arv on piiratud liikmetega 50K.</li></ul> |
+| Accessi paan | <ul><li>Ei ole näha kohta lõppkasutaja kasutajatele määratud litsentside Azure AD Premium või ettevõtte mobiilsus paanil Accessi rakenduste arv piiratud.</li><li>Kuni 10 rakenduse paan (näited: boksi, Salesforce või Dropboxi) näha Access paanil iga lõppkasutaja kasutajatele määratud litsentside tasuta või Azure AD põhilised väljaanded Azure Active Directory jaoks. See piirang ei kehti administraatorikontode.</li></ul> |
+| Aruanded | Kuni 1000 ridade saab vaadata või mis tahes aruandes alla. Täiendavad andmed kärbitakse murdosa. |

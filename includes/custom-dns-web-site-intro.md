@@ -1,0 +1,1 @@
+Kui loote web appi, Microsoft Azure'i pakub sõbralik alamdomeeni azurewebsites.net domeenis nii, et teie kasutajad pääsevad oma veebirakenduse, nt http:// URL-i&lt;mywebapp&gt;. azurewebsites.net. Kohandatud domeeninime, nt contoso.com, saate seostada ka oma veebirakenduse kasutajate jaoks veel tundmatu domeeninime pakkumiseks.
