@@ -1,0 +1,3 @@
+Teie IaaS virtuaalmasinates (VMs) ja PaaS rolli aknad virtuaalse võrgu automaatselt saadud vahemik, mis teie määratud põhjal need on ühendatud alamvõrgu privaatne IP-aadress. Milles käsitletakse alles VMs ja rolli aknad, kuni ta on kasutuselt. Eemaldate lõpetades see PowerShelli, Azure'i CLI või Azure portaali VM või rolli eksemplari. Sel juhul kui VM või rolli eksemplari hakkab uuesti seda saate saadaval IP-aadress Azure'i infrastruktuuri, mis ei pruugi olla sama see varem. VM või rolli eksemplari Külastajate operatsioonisüsteemi sulgemisel säilitab tal IP-aadress.  
+
+Teatud juhtudel soovite VM või rolli eksemplari on staatiline IP-aadress, näiteks, kui teie VM saab käitada DNS-i või domeenikontrolleri. Saate seda teha, seades staatilise privaatne IP-aadress.

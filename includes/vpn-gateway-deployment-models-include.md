@@ -1,0 +1,5 @@
+See on oluline mõista Azure'i praegu töötab kaks juurutamise mudelit: ressursihaldur ja klassikaline. Enne alustamist oma konfiguratsioon, veenduge, et kasutate juhiseid juurutamise mudelit, mida soovite töötada. Kahe mudeli pole täielikult omavahel.
+
+Näiteks kui töötate virtuaalse võrk, mis on loodud klassikaline juurutamise mudeli ning otsustanud ühenduse lisamiseks soovitud VNet, saate kasutada juurutamise meetodid, klassikaline juurutamise mudeli, mitte ressursihaldur teineteisele. Kui töötate virtuaalse võrguga, ressursihaldur juurutamise mudeli abil loodud, saate kasutada juurutamise meetodid, mis vastavad koos ressursihaldur, mitte klassikaline.
+
+Juurutamise mudelite kohta leiate teavet teemast [mõistmine ressursihaldur juurutus- ja klassikaline juurutamise](../articles/resource-manager-deployment-model.md).

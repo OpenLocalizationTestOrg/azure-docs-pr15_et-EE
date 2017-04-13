@@ -1,0 +1,1 @@
+VNet silmitsemine on kahe virtuaalse võrgu piirkonna ühenduse on Azure võrgu kaudu. Kui piilus, kuvatakse kahe virtuaalse võrgu kõik ühenduvuse eesmärgil ühe virtuaalse võrguna. Kui olete tuttav VNet silmitsemine, lugege [VNet silmitsemine ülevaade](../articles/virtual-network/virtual-network-peering-overview.md) .

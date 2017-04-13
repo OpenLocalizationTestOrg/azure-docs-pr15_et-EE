@@ -1,0 +1,3 @@
+Saate luua Azure'i virtuaalmasinates (VMs) ja iga teie VMs mitme võrgu liidesed (NICs) manustamiseks. Mitme NIC on mitme võrgu virtuaalse seadmed, nt rakenduse kohaletoimetamise ja WAN optimeeritud lahenduse nõue. Mitme NIC pakub veel võrgu liikluse halduse funktsioone, sh eraldamise liikluse vahel ees NIC lõpetamine ja tagasi end NIC(s) või andmeside lennuk eraldamine halduse lennuk liiklus.
+
+Enne kui saate juurutada mitme NICs VMs, on vaja mõista, kui saate kasutada mitme NICs ja kuidas neid kasutatakse. Lugege lisateavet VMs mitu NICs [mitme NIC ülevaade](../articles/virtual-network/virtual-networks-multiple-nics.md) .

@@ -1,0 +1,2 @@
+Azure virtuaalse võrgu (VNet) on pilves võrgu esitus. Saate määrata Azure võrgusätted ja määratleda DHCP aadressi plokid, DNS-i sätted, turbepoliitikate ja marsruutimist. Samuti saate segmendi oma VNet alamvõrku sisse ja juurutada IaaS Azure'i virtuaalmasinates (VMs) ja PaaS rolli aknad, ühtemoodi, saate juurutada füüsilise ja teie asutusesisese andmekeskusesse virtuaalmasinates. Sisuliselt saate laiendada võrgu Azure'i, mis toob oma IP-aadress blocks. Kui te ei tunne VNets, lugege [virtuaalse võrgu ülevaade](../articles/virtual-network/virtual-networks-overview.md) .
+

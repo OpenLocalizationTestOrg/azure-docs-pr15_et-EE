@@ -1,0 +1,1 @@
+> [AZURE.NOTE] Windowsi-põhiste Hdinsightiga kogumite kehtib ainult selles dokumendis sisalduvat teavet.

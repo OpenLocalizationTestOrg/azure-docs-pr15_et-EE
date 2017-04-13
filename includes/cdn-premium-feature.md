@@ -1,0 +1,1 @@
+> [AZURE.IMPORTANT] See on **Azure CDN Premium Verizon**ja ei ole saadaval **Azure CDN Standard** tooted.  Funktsioonide võrdlus on CDN-ID, teemast [Azure CDN ülevaade](cdn-overview.md#azure-cdn-features). 

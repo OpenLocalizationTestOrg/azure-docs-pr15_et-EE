@@ -1,0 +1,1 @@
+> [AZURE.IMPORTANT] See funktsioon on saadaval **Azure CDN Verizon** tooted (Standard ja Premium). See ei toeta **Azure CDN Akamai kaudu**.  Funktsioonide võrdlus on CDN-ID, teemast [Azure CDN ülevaade](cdn-overview.md#azure-cdn-features). 

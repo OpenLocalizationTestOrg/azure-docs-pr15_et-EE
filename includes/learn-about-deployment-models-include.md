@@ -1,0 +1,1 @@
+> [AZURE.IMPORTANT] Enne, kui töötate Azure ressursse, saate tutvuda juurutamise mudelite: [ressursihaldur, ja klassikaline](../articles/resource-manager-deployment-model.md).

@@ -1,0 +1,7 @@
+- **PolicyBased:** Varem nimetati PolicyBased VPN staatiline marsruutimine lüüside klassikaline juurutamise mudeli. Poliitika vastavalt VPN krüptimiseks ja otse paketid kaudu IPsec tunnelid IPsec poliitikad, mis on konfigureeritud aadress eesliiteid kohapealse võrgu ja Azure VNet kombinatsioonid põhjal. Poliitika (või liikluse valija) on tavaliselt määratletud juurdepääsu loendi VPN seadme konfiguratsiooni. PolicyBased VPN tüüp väärtus *PolicyBased*. Kui kasutate PolicyBased VPN, pidage meeles järgmistele piirangutele:
+
+    - PolicyBased VPN saab **ainult** kasutada põhilisi lüüsi SKU-ga. See VPN tüüp ei ühildu muude lüüsi SKU-de jaoks.
+    - Teil võib olla ainult 1 tunneliga, kui PolicyBased VPN-i abil.
+    - Saate kasutada ainult PolicyBased VPN S2S ühendused ja ainult teatud konfiguratsioone. Enamik VPN-lüüsi konfiguratsioone vaja RouteBased VPN.
+
+- **RouteBased**: RouteBased VPN olid varem nimetati dünaamilise marsruutimise lüüside klassikaline juurutamise mudeli. RouteBased VPN kasutage IP edasisaatmine või tabeli marsruutimiseks otse paketid sisse oma vastavate tunneliga liideste "marsruudib". Tunneliga liideste seejärel krüptida või dekrüptida ja sealt tunnelid paketid. Poliitika (või liikluse valija) RouteBased VPN on konfigureeritud nimega kõik mis (või metamärgistust). RouteBased VPN tüüp väärtus *RouteBased*.

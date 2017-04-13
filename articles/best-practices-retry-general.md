@@ -1,0 +1,116 @@
+<properties
+   pageTitle="Proovige üldised juhised | Microsoft Azure'i"
+   description="Juhised uuesti siirdamiseks viga käsitsemiseks."
+   services=""
+   documentationCenter="na"
+   authors="dragon119"
+   manager="christb"
+   editor=""
+   tags=""/>
+
+<tags
+   ms.service="best-practice"
+   ms.devlang="na"
+   ms.topic="article"
+   ms.tgt_pltfrm="na"
+   ms.workload="na"
+   ms.date="07/13/2016"
+   ms.author="masashin"/>
+
+# <a name="retry-general-guidance"></a>Proovige üldised juhised
+
+[AZURE.INCLUDE [pnp-header](../includes/guidance-pnp-header-include.md)]
+
+## <a name="overview"></a>Ülevaade
+
+Kõik rakendused, mis suhelda remote teenused ja ressursid tuleb siirdamiseks vead. See on eriti pilves, kus laad ja Interneti ühenduvus tähendab, et seda tüüpi vead on tõenäoliselt sagedamini esinevate rakenduste puhul. Siirdamiseks vigu sisaldavad hetkeline vähenemist võrguühendus komponendid ja teenused, ajutiselt kättesaadavad teenuse või ajalõpud, mis tekivad, kui teenus on hõivatud. Need vead sageli omas parandatakse ja siis, kui toiming sobiva viivituse pärast on tõenäoliselt õnnestub.
+
+Selle dokumendi hõlmab üldised juhised siirdamiseks viga töötlemine. Töötlemise siirdamiseks vead, kasutades Microsoft Azure'i teenuste kohta leiate teavet teemast [Azure teenuse kohased proovige juhised](best-practices-retry-service-specific.md).
+
+## <a name="why-do-transient-faults-occur-in-the-cloud"></a>Miks esineb pilveteenuses siirdamiseks vead?
+
+Siirdamiseks vead võivad tekkida keskkonnas, mis tahes platvormi või operatsioonisüsteemi ja rakenduse jätmiseks. Lahendusi, mis töötavad kohalik, kohapealse taristu, jõudlus ja rakenduse ja selle osade kättesaadavus säilitatakse tavaliselt kallis ja sageli jaotises kasutatud riistvara koondamise läbi ja komponendid ja ressursid on iga teise lähedal. Kuigi see teeb tõrke vähem tõenäoline, võib see endiselt tulemuseks siirdamiseks vigu - ja isegi mõni katkestuste ettenägematute, nagu välise power pakkumise või võrguprobleemide või teiste stsenaariumide katastroofi kaudu.
+
+Cloud hosting, sealhulgas privaatne cloud pakkuda kõrgema üldist kättesaadavust jagatud ressursid, koondamise, automaatselt Tõrkesiirde abil ja dünaamiline ressursi eraldus kogu suur hulk kaup arvutada sõlmed. Siiski saate nendes keskkondades laadi tähenda, et siirdamiseks vead on tõenäoliste. On mitu põhjust.
+
+* Paljudes ressursse cloud keskkonnas on ühiskasutusse antud ja nende ressursside ei ressursile kaitsmiseks pidurdamise seotud. Laadi tõusu teatud tasemele või maksimaalse läbilaskevõime määr jõudnud lubada olemasoleva taotluste töötlemist ning kõigi kasutajate jaoks teenuse säilitamiseks keeldub teatud teenuste ühendused. Pidurdamise aitab naabrid ja muud rentnikud Ühiskasutusega ressursi kasutamise teenuse kvaliteet.
+* Cloud keskkonnas on suur hulk kaup riistvara üksuste abil loodud. Need saavutused jagades dünaamiliselt laadi mitmesse arvuti üksused ja taristu komponendid ja pakkuda töökindluse automaatselt ringlussevõtu või asendades nurjunud üksused. See dünaamiline tähendab, et siirdamiseks vigu ja ajutine ühenduse tõrkeid võib aeg-ajalt ilmneda.
+* Sageli rohkem komponente, sh nagu ruuterid ja koormus soolise rakenduse ressursse ja teenuseid, mis kasutab võrgu taristule. See täiendav taristu saate aeg-ajalt Tutvustage täiendavad ühenduse latentsus ja siirdamiseks ühenduse vead.
+* Võrgu läbilaskevõime kliendi ja serveri vahel võib muutuja, eriti siis, kui side ületab Interneti-ühendus. Isegi kohapealse asukohad, väga raske liiklus laadimise võib-olla aeglane side ja vahelduva ühenduse tõrkeid põhjustada.
+
+## <a name="challenges"></a>Probleemid
+Siirdamiseks vead võib olla suur mõju võimalike kättesaadavus rakenduse, isegi siis, kui see on põhjalikult testitud kõik eeldatav tingimustel. Pilveteenuse majutatud rakenduste usaldusväärselt toimimise tagamiseks need peate saama järgmised probleemide lahendamiseks.
+
+* Rakendus peab olema võimalus vigu tuvastama, kui nad esineda ja kindlaks teha, kui need vead on tõenäoliselt ajutine, rohkem püsivate või on terminal ebaõnnestumist. Erinevate ressursid on tõenäoline, et tagastada erinevaid vastuseid, kui esineb viga, ja nende vastuste ka võivad erineda sõltuvalt kontekstist toimingu; näiteks vastus salvestusruumist lugemise ajal tõrge võib erineda vastuse vea kirjutamisel salvestusruumi. Paljudes ressursse ja teenused on hästi dokumenteeritud siirdamiseks tõrge lepingud. Kui selline teave ei ole saadaval, selle võib siiski raske leida laadi viga ja kas see on tõenäoliselt siirdamiseks.
+* Rakendus peab olema võimalus toimingut, kui seda määrab, et viga tõenäoliselt olla ajutine ja jälgida mitu korda toiming on uuesti proovida.
+* Rakenduse peate kasutama strateegia ning korduste. Selle strateegia määrab, mitu korda see peaks proovige viivitus vahel iga katse ja toimingud pärast nurjunud katse. Katsete ja viivitus igaüht sobiv arv on raske kindlaks teha, ja sõltuvad tüüpi ressursi kui ka ressursi ja ise praeguse tingimusi.
+
+## <a name="general-guidelines"></a>Üldised juhised
+Järgmisi juhiseid aitab teil kujundada üleandmise süsteemi rakenduste sobivad siirdamiseks viga:
+
+* **Määrata, kas sisseehitatud uuesti süsteem:**
+  * Palju teenuseid pakkuda mõne SDK või kliendi teek, mis sisaldab siirdamiseks veaks töötlemise süsteem. Proovi uuesti poliitika kasutab on tavaliselt kohandatud nõuetele target teenuse ja laadi. Teise võimalusena ülejäänud kasutajaliideste teenuste võib tagastada teavet, mis on kindlaks teha, kas vastav ja kaua oodatakse enne järgmise proovi uuesti proovi uuesti.
+  * Kasutage sisseehitatud uuesti süsteemi, kui see on saadaval juhul, kui teil on teatud ja hästi arusaadav nõuded, mida tähendavad erinevad uuesti käitumine on sobivam.
+* **Määratlemine, kui toiming sobib proovitakse uuesti**:
+  * Peaks ainult uuesti toimingud, kus vead on ajutine (tavaliselt tähistatud laadi viga), ja kui on vähemalt mõned tõenäosus, et toiming õnnestub, kui reattempted. Seal on toimingud, mis näitavad, nt andmebaasi sobimatu toimingu reattempting värskendamine, et üksus, mida pole olemas, või kutsed teenus või ressurss, mis on saanud pöördumatu tõrge
+  * Üldiselt tuleks rakendada korduskatsed ainult kus täielik mõju saab määrata, ja ka aru saanud ning saate kinnitada. Kui ei, ärge seda rakendada korduskatsed suunakoodiga. Meeles, et tõrgete tagastatud ressursse ja teenuseid väljaspool teie kontrolli võivad muutuda aja jooksul ja peate uuesti oma siirdamiseks vea tuvastamise loogika.
+  * Kui loote teenuseid või komponendid, leiavad tõrkekoodid ja sõnumid, mis aitab kindlaks teha, kas need uuesti kliendid ei õnnestunud toimingud. Eelkõige näitab kui kliendi peaks toimingut (ehk tagastades väärtuse **isTransient** ) ja soovitamine sobiva viivituse enne järgmise proovi uuesti. Kui koostate veebiteenuse, kaaluge esitus kohandatud tõrkeid, mis on määratletud teie teenuse lepingud. Kuigi üldise kliendid ei saa neid lugeda, neid kasulikke kui hoone kohandatud kliendid.
+* **Mõnda sobivat uuesti count ja intervall määratlemine**
+  * See on oluline optimeerimine uuesti count ja vahemiku, mida kasutada juhul tüüp. Kui te proovige piisavalt mitu korda, rakendus ei saa toimingu lõpuleviimiseks ja võib ilmneda tõrge. Kui te proovige liiga palju kordi või koos liiga lühike intervall vahel proovib, rakenduse potentsiaalselt mahub teemad, ühendused ja mälu pikaks, rakenduse seisundi kahjustada.
+  * Väärtused ajavahemik ja proovige uuesti katsete arv sõltuvad proovitakse toimingu tüüp. Näiteks kui toiming on osa kasutaja suhtluse, intervalli peaks olema lühike ja ainult mõne korduskatsed proovisite vältida kasutajate vastuse ootamine (kellel avage ühendused ja saab vähendada kättesaadavus teiste kasutajate jaoks). Kui toiming on osa kaua töötavad või kriitilised töövoo, kus tühistamine ja taaskäivitate protsess on kallis või aeganõudev, tuleb oodata enam katsete vahel ja proovige uuesti mitu korda.
+  * Kõige raskem osa kujundamise eduka strateegia määratlemine ajavahemike korduste vahel on. Tüüpilised strateegiad kasutada järgmist tüüpi uuesti intervalli.
+      * **Eksponent tagasi välja**. Rakenduse ootab veidi aega enne esimest proovi uuesti ja seejärel sünnitusaegsetel vahel iga järgmise proovi uuesti. Näiteks seda toimingut 3 sekundi 12 sekundi, 30 sekundi pärast ja nii edasi.
+      * **Suureneva intervalle**. Rakenduse ootab veidi aega enne esimest proovi uuesti ja seejärel artistide suurendamine järgmise proovi uuesti vahel. Näiteks seda toimingut 3 sekundi 7 sekundi, 13 sekundi pärast ja nii edasi.
+      * **Regulaarselt**. Rakenduse ootab sama ajavahemik iga katse vahel. Näiteks võib see korrake toimingut iga kolme sekundi järel.
+      * **Proovige kohe**. Mõnikord siirdamiseks viga on väga lühike, võib-olla põhjustatud sündmus, näiteks võrgu paketi kokkupõrke või mõne kühvli riistvara komponent. Sel juhul kohe toimingu uuesti proovimist on asjakohane, kuna see võib siis, kui viga on ruut on tühjendatud aega kulub rakenduse koguda ja saada järgmine päring. Siiski tohi kunagi olla rohkem kui üks kohe Proovi uuesti katse ja peaks vahetate alternatiivne strateegiad, näiteks eksponentsiaalse tagasi väljalülitamine või taandepäringud toimingud, näiteks kui kohe uuesti nurjub.
+      * **Randomiseerimist**. Mõne eelnimetatud strateegiad uuesti võivad sisaldada randomiseerimist, vältida kliendi saatmise uuesti edasiste katsete korraga mitmes eksemplaris. Näiteks võib ühe eksemplari korrake toimingut pärast 3 minutit, 11 sekundit, 28 sekundi ja ajal võib-olla muus eksemplaris toimingut pärast 4 sekundit 12 sekundit, 26 sekundit, jne jne. Randomiseerimist on kasulik meetod, mis võib kombineerida teiste strateegiad.  
+  * Üldine üldjoontes kasutada eksponentsiaalse tagasi välja strateegia taust toimingute ja kohe või tavalise intervall uuesti strateegiad interaktiivsed toimingud. Mõlemal juhul valida viivituse ja uuesti count nii, et maksimaalne latentsus kõigi uuestiproovimise katsest on nõutav lõpuni latentsus nõue.
+  * Arvesse kõiki tegureid, mis moodustavad üldine ajalõpp retried toimingu jaoks kombinatsiooni. Teguritest sisalduvad nurjunud ühenduse vastust, (tavaliselt määratud ajalõpu väärtust klient) kuluv aeg ja viivitus vahel proovi uuesti üritab ja korduskatsed maksimaalne arv. Väga suurte üldine toiming korda, eriti kui abil eksponentsiaalse viivitus strateegia, kus uued katsed vaheline intervall kasvab kiiresti pärast iga tõrge võib põhjustada need alati kokku. Kui protsess peab vastama kindla teenuse taseme leping (SLA), toiming aega, sh kõik ajalõpud ja viivitusi, mis määratletavad SLA-s
+  * Over-Aggressive uuesti strateegiad, mis on liiga lühikese intervalliga või võib-olla liiga korduskatsed, võib olla negatiivset mõju target ressursi või teenuse. See võib takistada selle ressursi või teenuse ülekoormatud seisu taastamine ja jätkab blokeerimine või taotlusi keelduda. Suletud ringi, kus rohkem taotlusi saadetakse ressursi või teenuse ja seega oma võimet taastada selle tulemusi on veelgi vähendada.
+  * Arvesse võtta toimingute ajalõpp valimisel uuesti intervallide vältimiseks, käivitades järgmise proovi kohe (nt kui aja sarnaneb uuesti intervalli). Ka arvesse võtta, kui peate säilitamine soovitud kokku perioodi jooksul (aeg, mille pluss uuesti intervallide) all teatud kogu aeg. Toimingud, mis on väga pika või lühikese ebatavaliselt ajalõpud võivad mõjutada kaua oodata, ja kui sageli toimingut abil.
+  * Kasutage erand ja see sisaldab andmete tüüpi või tõrkekoodide ja sõnumite tagastatud teenusest optimeerida intervalli ja korduste arv. Näiteks mõned erandid või tõrge koode (nt HTTP kood 503 teenus pole saadaval, proovige uuesti pärast päisega vastus) võib viidata kaua see tõrge võib viimati, või kas teenus ei ole ja mis tahes katsed ei reageeri.
+* **Vältige anti mustrid**:
+  * Enamikul juhtudel, mida tuleks vältida rakendusi, mis sisaldavad dubleeritakse kihid proovi kood. Vältige kujundusi, mis sisaldavad kaskaadlaadistiku uuesti menetlustele või mis rakendamiseks igas etapis toiming, mis hõlmab hierarhia taotlusi, proovige uuesti, kui teil on teatud nõuded, mis nõuavad seda. Kasutage erakorralised sellisel poliitika, mis takistavad liigse korduskatsed ja viivitus perioodide arv ja veenduge, et teil mõista tagajärgi. Näiteks kui üks osa taotleb teise, mis seejärel avab target teenus, ja rakendada uuesti koos kolme nii on kõnede arv üheksa proovige püüab kokku teenuse suhtes. Mitme teenuseid ja ressursse rakendada sisseehitatud uuesti süsteem ja tuleks uurida, kuidas saate keelata või muuta seda, kui teil on vaja rakendada korduskatsed kõrgemal tasemel.
+  *  Kunagi rakendada mõne lõputu proovi uuesti süsteem. See on tõenäoline, et vältida ressursi või teenuse ülekoormuse olukordades taastamine ja põhjustada pidurdamise ja ühendused jätkamiseks pikemaks ajaks keelata. Piiratud arv või korduskatsed või rakendada mustri näiteks [lüliti](http://msdn.microsoft.com/library/dn589784.aspx) lubamiseks teenuse taastada.
+  * Teha ka kohe uuesti kunagi rohkem kui üks kord.
+  * Vältige tavaline uuesti intervall, eriti siis, kui teil on suur hulk proovi uuesti üritab, vahendite Azure kasutamisel. Optimaalne lähenemine on sel juhul on eksponentsiaalse tagasi välja strateegia ringi viimase hetke võimalusega.
+  * Vältida mitmes eksemplaris sama kliendi või tellijate saatmise korduskatsed samal ajal mitmes eksemplaris. Kui see on tõenäoline, Tutvustage randomiseerimist intervallideks proovi uuesti.
+* **Proovi uuesti strateegia ja juurutamine testimiseks tehke järgmist.**
+  * Veenduge, et täielikult testida oma proovi uuesti strateegia rakendamine vastavalt kogumina lai juhul, kui võimalik, eriti siis, kui nii rakendus ja target ressursid või teenuste kasutab on äärmiselt koormuse. Testimise käigus kontrollida käitumist, saate teha järgmist.
+      * Teenuse annavad siirdamiseks ja -mööduv vead. Näiteks sobimatu päringuid või lisada koodi, mis tuvastab testi taotleb ja vastab erinevat tüüpi vigade. Näide kasutamise TestApi, vt [Viga katsetamine koos TestApi](http://msdn.microsoft.com/magazine/ff898404.aspx) ja [tutvustus TestApi – osa 5: hallatavate koodi viga süsti API](http://blogs.msdn.com/b/ivo_manolov/archive/2009/11/25/9928447.aspx).
+      * Saate luua mõne mõnitama ressursi või teenus, mis tagastab tõrkeid, mis võib tagastada tegelik teenuse lahtrivahemiku. Veenduge, et te katta tõrge tüüpi tuvastamiseks loodud uuesti strateegia kavandamine.
+      * Jõusta siirdamiseks tõrkeid ilmneda ajutiselt keelata või ülekoormuse teenuse, kui see on kohandatud teenus, mis teil luua ja juurutada (te ei peaks, muidugi püüdma ülekoormuse ühiskasutusega ressursse või ühisteenuste Azure'is).
+      * HTTP-põhine API-d, kaaluge FiddlerCore Raamatukogu oma automatiseeritud testide abil muuta tulemus HTTP-taotluste eest edasi korda lisamise või muutmisega vastuse (nt HTTP olekukoodi, päised, sisu või muud tegurid). See võimaldab tarkadeks katsetamine alamhulk tõrge tingimused, kas see on ajutine vead või muud tüüpi tõrge. Lisateavet leiate teemast [FiddlerCore](http://www.telerik.com/fiddler/fiddlercore). Kuidas kasutada teeki, eriti **HttpMangler** ainekursust, uurige [lähtekoodi Azure'i salvestusruumi SDK](https://github.com/Azure/azure-storage-net/tree/master/Test)näiteid.
+      * Suure koormuse tegur ja samaaegseid testib tagada, et proovi uuesti süsteem ja strateegia töötab õigesti järgmistest tingimustest ja kliendi toimimise kohta vastupidise efekti või põhjustada vahel taotlused teha.
+* **Proovi uuesti poliitika konfiguratsioone haldamiseks tehke järgmist.**
+  * _Proovige poliitika_ on kõik elemendid oma proovi uuesti strateegia kombinatsiooni. See määratleb tuvastamise süsteem, mis määrab, kas viga tõenäoliselt olla ajutine, intervall kasutada (nt tavaline, eksponentsiaalse tagasi väljalülitamine ja randomiseerimist), tegelik intervall väärtust (väärtusi) ja mitu korda uuesti tüüp.
+  * Korduskatsed rakendatakse mitmes kohas isegi lihtsaim rakendusest ja iga kiht keerukamaid rakendused. Selle asemel, et suur-koodis elementide iga poliitika mitmes kohas, kaaluge keskse punkti poliitika talletamiseks. Näiteks talletada intervalli väärtused ja proovige rakenduse konfigureerimine failide arvu, loe neid käitusajal ja programmiliselt koostada poliitikate proovi uuesti. See on hõlpsam hallata sätteid, ja muuta ja häälestada vastamiseks muutmise nõuded ja stsenaariumid väärtused. Kujundus süsteemi talletada väärtused, mitte rereading konfiguratsiooni faili iga kord, ja veenduge, et vaikesätted sobivad kasutatakse siiski kui väärtused ei saa saadud konfigureerimine.
+  * Azure'i pilveteenustega rakenduses, kaaluge talletamise väärtused, mida kasutatakse koostamiseks nii, et neid saab muuta ilma rakenduse taaskäivitamist uuesti poliitikad teenuse konfiguratsioonifailis käitusajal.
+  * Ära sisseehitatud või vaikimisi uuesti strateegiad klientrakenduses API-de kasutada, kuid ainult siis, kui need sobivad stsenaariumist saadaval. Need strateegiad on tavaliselt üldotstarbeline. Mõnel juhul võib neid vaja, kuid teiste stsenaariumide nad ei paku kõiki suvandeid vastavalt teie nõudmistele. Te peate mõistma, kuidas mõjutab sätete rakenduse kaudu testimine määratlemiseks kõige väärtused.
+* **Logige sisse ja jälgida siirdamiseks ja -mööduv vead.**
+  * Osana uuesti strateegia kavandamine, sisaldavad erandi töötlemine ja muid seadmeid, kui uuesti proovitakse logib. Oodata, aga ka juhuslikku siirdamiseks tõrge ja proovige uuesti ja näitab, et probleem, tavaline ja suurenevad arvu korduskatsed on sageli näitaja probleemi, mis võivad põhjustada või on praegu mõjutavad rakenduse jõudlus ja kättesaadavus.
+  * Logige siirdamiseks vead hoiatus kirjed, mitte viga kirjeid nii, et abil tuvastada neid nimega rakenduse tõrked, mis võivad põhjustada false teatised.
+  * Kaaluge talletamine väärtuse oma Logi kirjed, mis näitab, kui selle korduskatsed põhjustas teenuse ahendamine või muud tüüpi vead ühenduse tõrkeid, näiteks nii, et saate neid andmete analüüsimisel eristada. Ahendamise tõrgete arvu suurenemine on sageli indikaator kujundus viga rakenduse või vajate üle minna premium teenus, mis pakub asjakohast riistvara.  
+  * Kaaluge mõõte ja logimise üldine kuluv toimingud, mis hõlmavad uuesti süsteem. See on hea näitaja siirdamiseks vead üldise mõju kasutaja vastuse korda, protsess latentsus ja tõhusust rakenduse kasutamise juhtudel. Ka log korduste arv ilmnenud mõistmaks tegureid, mis moodustab vastuse aeg.
+  * Kaaluge rakendamine on telemeetria ja jälgimine süsteemi, mis võib tõsta teatisi, kui arv ja määr tõrkeid, Keskmine korduste arv või üldine kellaaegu tehtud toimingute õnnestub, suureneb.
+* **Toimingute kohta, mida pidevalt nurjuda haldamiseks tehke järgmist.**
+  * Olukorras, kus toiming ei lahene nurjumise iga katse, on oluline silmas pidada? kuidas ei oska olukord on:
+      * Kuigi uuesti strateegia määratleb on mitu korda, mis tuleb toimingu uuesti proovida, ei takista rakenduse toimingut korrata, korduvate sama korduste arv. Näiteks kui teenuse tellimuse nurjub fataalviga, mis paigutab välja toiming jäädavalt, võib uuesti strateegia tuvasta ühenduse ajalõpp ja võtke arvesse, et see on ajutine viga. Kood kuvatakse toimingut määratud arv kordi ja seejärel andke. Siiski kui teise kliendi tellib, toimingu proovitakse uuesti - kuigi see on veenduge, et iga kord nurjuda.
+      * Pideva korduskatsed toiminguid, mis pidevalt nurjuda vältimiseks, võiksite [lüliti mustri](http://msdn.microsoft.com/library/dn589784.aspx). Selle muster, kui arvu määratud ajaakna jooksul ületab läve, taotlusi tagastatakse funktsiooni helistaja kohe tõrkeid, nagu ilma pääseda nurjunud ressursi või teenuse.
+      * Rakenduse perioodiliselt testida teenuse, aeg-ajalt ja väga pikaks vahedega vahel taotluste tuvastamiseks, kui see on saadaval. Sobiv intervall sõltub stsenaarium, nt toimingu olulisusele ja teenuse, laadi ja võib olla midagi paar minutit ja mitu tundi. Kohas, kus test õnnestus, rakendus on seatud peatatud ja edastama kutsed äsja taastatud teenus.
+      * Vahepeal võimalik keelt muus eksemplaris teenuse (võib-olla erinevad andmekeskuse või rakenduse), kasutada sarnaseid teenus, mis pakub ühilduv (võib-olla lihtsam) funktsionaalsus või mõne alternatiivse toiminguid loodame, et teenuse muutuvad kättesaadavaks varsti. Näiteks võib vaja talletamiseks taotlusi teenuse järjekorda või andmete talletamiseks ja neid hiljem kordus. Muul juhul võib olla võimalik ümber suunata kasutaja rakenduse alternatiivne eksemplari, halvendada rakenduse, kuid endiselt pakkuda lubatud funktsioonid või lihtsalt saatja sõnumile kasutaja, mis näitab, et rakendus pole saadaval esitamine.
+
+* **Muud kaalutlused**
+  * Korduste arv väärtusi ja proovige uuesti intervallide poliitika otsustamisel arvesse võtta, kui teenuse või ressursside toiming on pikaajaline või mitme etapi toimingu osana. See võib olla keeruline või kallis kompenseeri kõik muud funktsionaalseid toiminguid, mis on juba õnnestunud, kui üks nurjub. Sel juhul väga pikaks intervall ja suure hulga korduskatsed võib aktsepteeritav seni, kuni see blokeerida muude toimingute hoides või lukustamine piiratud ressursid.
+  * Kaaluge võimalust, kui sama toimingu uuesti proovimist võib põhjustada vastuolusid andmed. Osa mitme järgmist toimingut korrata, kui need toimingud ei ole idempotent, see võib kaasa tuua vastavuses. Näiteks toiming, mis suurendab väärtuse, kui korduvad, toodavad vigase tulemi. Korduv toiming, mis saadab sõnumi järjekorda võib põhjustada vastavuses sõnumi tarbija kui see ei leia eksemplaris sõnumeid. Selle vältimiseks tagada kujundatud iga toimingu idempotent toimingu nimega. Idempotency kohta leiate lisateavet teemast [Idempotency mustrite](http://blog.jonathanoliver.com/2010/04/idempotency-patterns/).
+  * Kaaluge toimingud, mida proovitakse ulatust. Näiteks võib olla lihtsam rakendada proovi kood tasemel, mis hõlmab mitme toimingu ja proovige neid kõiki ühte nurjumisel. Siiski teha seda võib kaasa tuua idempotency probleemid või mittevajalike tagasipööramine toiminguid.
+  * Proovi uuesti ulatus, mis hõlmab mitme toimingu valimisel arvesse võtta kokku latentsus kõik need määramisel proovi uuesti intervalle, kui jälgida aega ja enne tõstmine teatiste ebaõnnestumist.
+  * Kaaluge võimalust, kuidas uuesti strateegia kavandamine võib mõjutada naabrid ja muud rentnikud ühiskasutusse antud rakendusest või ühiskasutusega ressursid ja teenuste kasutamisel. Agressiivne uuesti poliitikad, võivad põhjustada hulganisti siirdamiseks vead tekkida need teiste kasutajate ja rakenduste ühiskasutus ressursid ja teenused. Samuti rakenduse võib mõjutada uuesti poliitikaid rakendada teiste kasutajate ressursse ja teenuseid. Olulise rakenduste otsustate kasutada premium teenuseid, mis on ühiskasutusse antud. See pakub palju rohkem kontrolli laadimise ja järgnevad pidurdamise nende ressursside ja teenuseid, mis aitab täiendavate õigustatud.
+
+## <a name="more-information"></a>Lisateave
+
+* [Azure'i teenus kohased uuesti juhised](best-practices-retry-service-specific.md)
+* [Siirdamiseks viga töötlemine rakenduse blokeerimine](http://msdn.microsoft.com/library/hh680934.aspx)
+* [Lüliti muster](http://msdn.microsoft.com/library/dn589784.aspx)
+* [Pikkusega tehingu muster](http://msdn.microsoft.com/library/dn589804.aspx)
+* [Idempotency mustriga](http://blog.jonathanoliver.com/2010/04/idempotency-patterns/)

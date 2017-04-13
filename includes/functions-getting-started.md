@@ -1,0 +1,3 @@
+Azure'i funktsioonid on sündmuse põhinev, Arvuta nõudmisel kogemus, mis laiendab olemasolevat Azure rakenduse platvormi rakendada koodi käivitada muude Azure'i teenuste, toodete SaaS ning kohapealse süsteemide sündmused võimalustega. Azure'i funktsioonidega nõudmisel põhineva oma rakenduste skaala ja maksate ainult ressursse, saate kasutada. Azure'i funktsioonide annab teie käsutusse intuitiivse, Brauseripõhine kasutajaliidese võimaldab teil luua ajastatud või vallandanud tekstilõigule kood rakendada erinevaid programmeerimise keeled. 
+
+See alustamine video näitab, kuidas funktsioon rakenduse loomine, muutmine kood ning suhelda päästikute ja seosed.

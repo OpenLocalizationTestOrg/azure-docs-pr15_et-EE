@@ -1,0 +1,1 @@
+Samuti on võimalik ühendada VNets VPN-lüüsi kasutamata. Kui teie VNets on sama piirkonna, võite ühendada, kasutades VNet silmitsemine silmas pidada. Lisateavet leiate artiklist [VNet silmitsemine](../articles/virtual-network/virtual-network-peering-overview.md) .

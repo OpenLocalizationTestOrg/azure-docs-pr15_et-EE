@@ -1,0 +1,3 @@
+> [AZURE.IMPORTANT] PowerShelli tugi Azure Hdinsightiga ressursside abil Azure Service Manager (ASM) on __aegunud__ja 1 Jaanuar 2017 eemaldatakse. Juhised selle dokumendi kasutada uut Hdinsightiga cmdlet-käskude töötada koos Azure ressursi Manager (ARM).
+>
+> Järgige juhiseid [installida ja konfigureerida Azure PowerShelli](../articles/powershell-install-configure.md) Azure PowerShelli uusima versiooni installimiseks. Kui teil on skriptide, mida on vaja muuta uued cmdlet-käsud, mis töötavad Azure ressursihaldur kasutama, leiate lisateavet [Migrating Azure ressursihaldur arengu tööriistad Hdinsightiga kogumite jaoks](../articles/hdinsight/hdinsight-hadoop-development-using-azure-resource-manager.md) .
