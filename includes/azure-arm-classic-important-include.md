@@ -1,0 +1,1 @@
+>[AZURE.IMPORTANT]Enne töötate Azure ressursse, on oluline mõista, et Azure on praegu kaks juurutamine mudelit: Azure ressursihaldur ja classic. Veenduge, et mõistate [juurutamine mudelid ja tööriistad](../articles/azure-classic-rm.md) , enne kui te Azure'i ressurss. Erinevaid vahendeid dokumentatsiooni saate vaadata klõpsates selle artikli juurde.

@@ -1,0 +1,3 @@
+Azure'i sisemine load koormusetasakaalustusteenuse (ILB) pakub võrgu koormuse tasakaalustamine vahel asuvad pilveteenus või piirkondliku ulatusega Virtuaalvõrgu.
+
+Vt lisateavet kasutamise ja konfigureerimisega virtuaalvõrkude on piirkondlikult [Piirkondliku virtuaalvõrkude](../articles/virtual-network/virtual-networks-migrate-to-regional-vnet.md). Olemasolevate virtuaalsed võrgud, mis on konfigureeritud ühtivus rühmapoliitika ei saa kasutada ILB.
