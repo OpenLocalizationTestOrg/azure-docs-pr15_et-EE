@@ -1,0 +1,1 @@
+> [AZURE.IMPORTANT]  See sisu on aegunud ja enam säilitada.  Oracle'i tugi Azure ülevaate leiate teemast [see avaldatud tugi lause.](http://www.oracle.com/technetwork/topics/cloud/faq-1963009.html#support)

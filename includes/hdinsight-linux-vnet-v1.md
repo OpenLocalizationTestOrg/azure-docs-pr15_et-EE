@@ -1,0 +1,3 @@
+> Te ei saa kasutada mõnda v1 (klassikaline) Azure Hdinsightiga Linux-põhine virtuaalse võrku. Virtuaalse võrgu peab olema v2 (Azure'i ressursihaldur), et see olla suvandina Azure eelvaade portaalis käigus Hdinsightiga kobar loomine või Azure CLI või Azure PowerShelli klaster loomisel kasutada.
+> 
+> Kui teil on ressursid v1 võrgus ja soovite Hdinsightiga otse nende ressursside virtuaalse võrgu kaudu kättesaadavaks teha, vt [ühenduse loomine klassikaline VNets, et uus VNets](../articles/vpn-gateway/vpn-gateway-connect-different-deployment-models-portal.md) kohta teavet v2 virtuaalse võrgu v1 virtuaalse võrguga ühenduse loomiseks. Pärast seda, kui ühendus on loodud, saate luua Hdinsightiga kobar v2 virtuaalse võrgu.

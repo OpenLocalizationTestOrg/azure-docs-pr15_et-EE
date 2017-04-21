@@ -1,0 +1,2 @@
+> [AZURE.NOTE]
+> .Publishsettings fail sisaldab mandaat (kodeerimata), mida kasutatakse teie Azure'i tellimused ja teenuste haldamine. Selle faili parim turvalisus on salvestatakse ajutiselt väljaspool teie andmeallika kataloogide (nt kaustas Libraries\Documents) ja seejärel kustutage, kui importimine on lõpule viidud. Pahatahtlik kasutaja saab juurdepääsu .publishsettings faili redigeerimine, loomine ja kustutamine Azure'i teenuste.
